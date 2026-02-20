@@ -1,0 +1,261 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ categoria.nombre }} | RANKING{% endblock %}
+
+{% block body %}
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --border-color: #333;
+            --tier-bg: #111;
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff0055;
+            --color-s: #ff0055;
+            --color-a: #ffaa00;
+            --color-b: #ffea00;
+            --color-c: #00f3ff;
+            --color-d: #888888;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+            background-image:
+                linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px; pointer-events: none; z-index: 999;
+        }
+
+        .tier-container { max-width: 1400px; margin: 40px auto; padding: 20px; }
+
+        .page-header { text-align: center; margin-bottom: 40px; text-transform: uppercase; }
+        .page-header h1 {
+            font-family: 'Archivo Black', sans-serif; font-size: 2.5rem; margin: 0;
+            text-shadow: 2px 2px 0px var(--color-s), -2px -2px 0px var(--color-c);
+        }
+
+        .tier-row {
+            display: flex; min-height: 140px; background-color: var(--tier-bg);
+            border: 1px solid var(--border-color); margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .tier-label {
+            width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            color: #000; font-family: 'Archivo Black', sans-serif; font-size: 2rem;
+            border-right: 3px solid #000; text-shadow: 0px 0px 5px rgba(255,255,255,0.4);
+        }
+
+        .tier-s { background: var(--color-s); }
+        .tier-a { background: var(--color-a); }
+        .tier-b { background: var(--color-b); }
+        .tier-c { background: var(--color-c); }
+        .tier-d { background: var(--color-d); }
+
+        .tier-content {
+            flex-grow: 1; padding: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start;
+            transition: background 0.3s;
+        }
+        .tier-content.drag-over { background-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 20px var(--neon-cyan); }
+
+        .unranked-area { margin-top: 50px; border: 2px dashed #444; padding: 20px; background: rgba(0,0,0,0.5); min-height: 200px; }
+        .unranked-title { color: #666; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .unranked-pool { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+
+        .draggable-item {
+            width: 90px; height: 135px; cursor: grab; transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #333; background: #000;
+        }
+        .draggable-item:active { cursor: grabbing; }
+        .draggable-item:hover { transform: scale(1.15); z-index: 100; border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        .draggable-item.dragging { opacity: 0.4; border: 2px dashed var(--neon-cyan); }
+        img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+        a {
+            text-decoration: none;
+        }
+
+        .cyber-btn {
+            position: relative;
+            background: transparent;
+            color: var(--neon-cyan) !important;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            border: 2px solid var(--neon-cyan);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            margin-top: 30px;
+        }
+
+        .cyber-btn:hover {
+            background: var(--neon-cyan);
+            color: #000 !important;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+        }
+    </style>
+
+    <div class="scanlines"></div>
+
+    <div class="tier-container">
+
+        <div class="page-header">
+            <h1>{{ categoria.nombre }}</h1>
+            <small>/// DRAG AND DROP TO CLASSIFY ///</small>
+        </div>
+
+        <div class="tier-row">
+            <div class="tier-label tier-s">S</div>
+            <div class="tier-content drop-zone" id="tier-s">
+                {% for serie in seriesPorTier['S'] %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tier-row">
+            <div class="tier-label tier-a">A</div>
+            <div class="tier-content drop-zone" id="tier-a">
+                {% for serie in seriesPorTier['A'] %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tier-row">
+            <div class="tier-label tier-b">B</div>
+            <div class="tier-content drop-zone" id="tier-b">
+                {% for serie in seriesPorTier['B'] %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tier-row">
+            <div class="tier-label tier-c">C</div>
+            <div class="tier-content drop-zone" id="tier-c">
+                {% for serie in seriesPorTier['C'] %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tier-row">
+            <div class="tier-label tier-d">D</div>
+            <div class="tier-content drop-zone" id="tier-d">
+                {% for serie in seriesPorTier['D'] %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="unranked-area">
+            <div class="unranked-title">UNRANKED_DATA_STREAM</div>
+
+            <div class="unranked-pool drop-zone" id="bank">
+                {% for serie in seriesUnranked %}
+                    <div class="draggable-item" draggable="true" id="serie-{{ serie.id }}">
+                        <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w200' ~ serie.posterPath : asset('imagenes/no_data.png') }}"
+                             alt="Poster">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <form action="{{ path('app_guardarRanking', {'id': categoria.id}) }}" method="POST" id="ranking-form">
+                <input type="hidden" name="tier_s" id="input_s">
+                <input type="hidden" name="tier_a" id="input_a">
+                <input type="hidden" name="tier_b" id="input_b">
+                <input type="hidden" name="tier_c" id="input_c">
+                <input type="hidden" name="tier_d" id="input_d">
+
+                <button type="submit" id="btn-save-ranking" class="cyber-btn">
+                    UPLOAD_
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        const SCROLL_SPEED = 10;
+        const SCROLL_ZONE = 100;
+
+        const draggables = document.querySelectorAll('.draggable-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => draggable.classList.add('dragging'));
+            draggable.addEventListener('dragend', () => draggable.classList.remove('dragging'));
+        });
+
+        window.addEventListener('dragover', (e) => {
+            if (!document.querySelector('.dragging')) return;
+            if (e.clientY < SCROLL_ZONE) window.scrollBy(0, -SCROLL_SPEED);
+            else if (e.clientY > (window.innerHeight - SCROLL_ZONE)) window.scrollBy(0, SCROLL_SPEED);
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+                const afterElement = getDragAfterElement(zone, e.clientX, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                if (draggable) {
+                    if (afterElement == null) zone.appendChild(draggable);
+                    else zone.insertBefore(draggable, afterElement);
+                }
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', () => zone.classList.remove('drag-over'));
+        });
+
+        function getDragAfterElement(container, x, y) {
+            const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        document.getElementById('ranking-form').addEventListener('submit', function(e) {
+            const getIdsFromZone = (zoneId) => {
+                const zone = document.getElementById(zoneId);
+                const items = zone.querySelectorAll('.draggable-item');
+                return Array.from(items).map(item => item.id.replace('serie-', '')).join(',');
+            };
+
+            document.getElementById('input_s').value = getIdsFromZone('tier-s');
+            document.getElementById('input_a').value = getIdsFromZone('tier-a');
+            document.getElementById('input_b').value = getIdsFromZone('tier-b');
+            document.getElementById('input_c').value = getIdsFromZone('tier-c');
+            document.getElementById('input_d').value = getIdsFromZone('tier-d');
+        });
+    </script>
+{% endblock %}

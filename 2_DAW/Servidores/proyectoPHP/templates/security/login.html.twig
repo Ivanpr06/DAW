@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LOGIN | Access Control{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background-color: #050505;
+            font-family: 'Roboto Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .retro-grid {
+            position: absolute; width: 200%; height: 100%; bottom: -50%; left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: moveGrid 5s linear infinite;
+            opacity: 0.15; z-index: 0; pointer-events: none;
+        }
+        @keyframes moveGrid {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        .login-wrapper {
+            display: flex; width: 900px; height: 550px;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
+            z-index: 10; position: relative;
+        }
+
+        .corner-decor {
+            position: absolute; width: 20px; height: 20px;
+            border: 2px solid #00ffff; transition: all 0.3s;
+        }
+        .tl { top: -5px; left: -5px; border-bottom: none; border-right: none; }
+        .br { bottom: -5px; right: -5px; border-top: none; border-left: none; }
+
+        .info-side {
+            flex: 1; padding: 40px; border-right: 1px solid #333;
+            display: flex; flex-direction: column; justify-content: space-between;
+            background: linear-gradient(135deg, rgba(0,255,255,0.05) 0%, transparent 100%);
+            position: relative; overflow: hidden;
+        }
+
+        .form-side {
+            flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .input-group { margin-bottom: 25px; position: relative; }
+        .input-label {
+            position: absolute; top: -10px; left: 10px;
+            background: #0f0f0f; padding: 0 5px;
+            font-size: 0.7rem; color: #00ffff; text-transform: uppercase;
+        }
+        input {
+            width: 100%; background: transparent; border: 1px solid #444;
+            padding: 15px; color: white; font-family: inherit; font-size: 1rem; outline: none;
+        }
+        input:focus { border-color: #00ffff; box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2); }
+
+        .btn-submit {
+            width: 100%; padding: 15px; background: #00ffff; border: none;
+            color: black; font-weight: bold; font-size: 1.1rem; cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: white; box-shadow: 0 0 20px #00ffff; }
+
+        .toggle-text { margin-top: 20px; font-size: 0.8rem; text-align: center; color: #888; }
+        .toggle-text a { color: #00ffff; cursor: pointer; text-decoration: underline; }
+
+        .noise-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.05; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABZJREFUeNpi2r9//38gYGAEESAAEGAAasgJOgzOKCoAAAAASUVORK5CYII=');
+            pointer-events: none;
+        }
+
+        .alert-error {
+            background-color: rgba(255, 0, 0, 0.15);
+            border: 1px solid #ff3333;
+            color: #ff5555;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both;
+        }
+
+    </style>
+
+    <div class="scanlines"></div>
+    <div class="retro-grid"></div>
+
+    <div class="login-wrapper">
+        <div class="corner-decor tl"></div>
+        <div class="corner-decor br"></div>
+
+        <div class="info-side">
+            <div class="noise-bg"></div>
+            <div class="system-header">
+                <span style="color: #00ffff; letter-spacing: 2px; font-size: 0.8rem;">SECURE ARCHIVE v.2.0</span>
+                <h2 style="font-family: 'Archivo Black'; font-size: 2.5rem; line-height: 1; margin-top: 10px; color: white;">
+                    ACCESS<br>CONTROL
+                </h2>
+            </div>
+
+            <div style="font-size: 0.7rem; color: #666; line-height: 1.6;">
+                <p>ESTADO DEL SERVIDOR: <strong style="color:#0f0">ONLINE</strong></p>
+                <div style="width: 100%; height: 2px; background: #333; margin: 15px 0;">
+                    <div style="width: 30%; height: 100%; background: #00ffff;"></div>
+                </div>
+                <p>> Gateway: T-800</p>
+                <p>> Protocolo: Identificación requerida</p>
+                <br>
+                <p style="opacity: 0.7">Bienvenido de nuevo, agente. Introduzca sus credenciales para descifrar la base de datos.</p>
+            </div>
+
+            <div style="font-size: 3rem; color: #111; font-family: 'Archivo Black';">LOGIN</div>
+        </div>
+
+        <div class="form-side">
+            <form method="post" action="{{ path('app_login') }}">
+                <h3 style="margin-bottom: 30px; font-family: 'Archivo Black'; color: white;">IDENTIFICACIÓN</h3>
+
+                {% if error %}
+                    <div class="alert-error">
+                        ⚠️ {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                <div class="input-group">
+                    <span class="input-label">Email</span>
+                    <input type="email" name="correo" required placeholder="user@cartoonlost.net" autocomplete="email" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-label">Clave de Acceso</span>
+                    <input type="password" name="contrasena" required placeholder="••••••••••" autocomplete="current-password">
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn-submit">INICIAR SESIÓN</button>
+
+                <div class="toggle-text">
+                    <a href="{{ path('app_home') }}" style="color: #666; text-decoration: none; font-size: 0.7rem;">[X] CANCELAR Y SALIR</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}CARTOON LOST | The Archive{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+
+        <style>
+            :root {
+                --bg-color: #050505;
+                --card-bg: #111;
+                --text-main: #e0e0e0;
+                --accent: #00ffff;
+                --accent-dim: rgba(0, 255, 255, 0.1);
+                --font-head: 'Archivo Black', sans-serif;
+                --font-body: 'Roboto Mono', monospace;
+            }
+
+            body {
+                margin: 0;
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                font-family: var(--font-body);
+            }
+
+            .scanlines {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+                background-size: 100% 4px;
+                pointer-events: none;
+                z-index: 999;
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 40px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+
+                /* Efecto Cristal Tech */
+                background-color: rgba(5, 5, 5, 0.85);
+                backdrop-filter: blur(5px);
+                border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            a.logo {
+                font-family: var(--font-head);
+                font-size: 1.5rem;
+                color: white;
+                text-decoration: none;
+                text-transform: uppercase;
+                letter-spacing: -1px;
+                position: relative;
+                display: inline-block;
+                transition: color 0.3s;
+            }
+
+            a.logo:hover {
+                animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+                color: var(--accent);
+            }
+
+            @keyframes glitch {
+                0% { transform: translate(0) }
+                20% { transform: translate(-2px, 2px) }
+                40% { transform: translate(-2px, -2px) }
+                60% { transform: translate(2px, 2px) }
+                80% { transform: translate(2px, -2px) }
+                100% { transform: translate(0) }
+            }
+
+            nav ul {
+                display: flex;
+                align-items: center; /* Centra verticalmente los items */
+                list-style: none;
+                gap: 30px;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav a.nav-link {
+                color: #888;
+                text-decoration: none;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 5px 10px;
+                position: relative;
+                transition: all 0.3s;
+            }
+
+            /* Efecto hover solo en texto */
+            nav a.nav-link:hover, nav a.nav-link.active {
+                color: var(--accent);
+                text-shadow: 0 0 8px var(--accent);
+            }
+
+            /* Los corchetes solo aparecen si tienes la clase .nav-link */
+            nav a.nav-link::before {
+                content: '['; margin-right: 5px; opacity: 0; color: var(--accent); transition: opacity 0.3s;
+            }
+            nav a.nav-link::after {
+                content: ']'; margin-left: 5px; opacity: 0; color: var(--accent); transition: opacity 0.3s;
+            }
+
+            nav a.nav-link:hover::before, nav a.nav-link:hover::after,
+            nav a.nav-link.active::before, nav a.nav-link.active::after {
+                opacity: 1;
+            }
+
+            .foto_perfil {
+                width: 35px;
+                height: 35px;
+                object-fit: cover;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+
+        {% block navbar %}
+        {% set current_route = app.request.attributes.get('_route') %}
+        <header>
+            <a href="{{ path('app_home') }}" class="logo">Cartoon Lost_</a>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('app_home') }}" class="nav-link {{ current_route == 'app_home' ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ path('app_serie') }}" class="nav-link {{ current_route == 'app_serie' ? 'active' : '' }}">Database</a></li>
+                    <li><a href="{{ app.user ? path('app_ranking') : path('app_registro') }}" class="nav-link {{ current_route == 'app_ranking' ? 'active' : '' }}">Rankings</a></li>
+                    {% if app.user %}
+                    <a href="{{ is_granted('ROLE_ADMIN') ? path('app_admin') : path('app_logout') }}"><img src="{{ asset('/imagenes/foto_perfil.png')}}" alt="foto_perfil" class="foto_perfil"></a>
+                    {% else %}
+                    <li><a href="{{ path('app_registro') }}" class="nav-link {{ current_route == 'app_registro' ? 'active' : '' }}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        {% endblock %}
+        {% block body %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,447 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ serie.name }} | CARTOON LOST{% endblock %}
+
+{% block body %}
+
+    <style>
+        body {
+            background-color: var(--bg-color);
+            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace; /* O tu variable var(--font-body) */
+            min-height: 100vh;
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .hero-banner {
+            height: 50vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--accent, #00ffff);
+            background-color: #000;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('{{ serie.posterPath ? "https://image.tmdb.org/t/p/w1280" ~ serie.posterPath : asset("imagenes/no_data.png") }}');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(50%) contrast(110%) brightness(0.7);
+            opacity: 0.8;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+
+            background-image:
+                radial-gradient(circle at center, transparent 0%, #050505 90%),
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+
+            background-size: 100% 100%, 20px 20px, 20px 20px; /* Tamaño de la rejilla */
+        }
+
+        @keyframes scan {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: -150px auto 50px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+        }
+
+        .sidebar {
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .poster-frame {
+            position: relative;
+            border: 1px solid var(--accent, #00ffff); /* Fallback a cyan si falla la variable */
+            padding: 5px;
+            background: rgba(0,0,0,0.8);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .poster-img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            display: block;
+        }
+
+        .score-panel {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .score-panel::before {
+            content: 'SYSTEM_SCORE';
+            position: absolute; top: 5px; left: 10px;
+            font-size: 0.6rem; color: #555; letter-spacing: 2px;
+        }
+
+        .big-score {
+            font-size: 3.5rem;
+            color: var(--accent, #00ffff);
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(0,255,255,0.3);
+        }
+
+        .info-col {
+            padding-top: 60px;
+        }
+
+        .series-title {
+            font-size: 3.5rem;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: white;
+        }
+
+        .meta-tags-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #222;
+            border-left: 3px solid var(--accent, #00ffff);
+        }
+
+        .meta-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .separator {
+            width: 1px;
+            height: 25px;
+            background: #444;
+            transform: skew(-20deg);
+            display: none;
+        }
+
+        @media(min-width: 768px) { .separator { display: block; } }
+
+        .tag {
+            font-size: 0.85rem;
+            color: #aaa;
+            font-family: 'Roboto Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag .label {
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .tag.highlight {
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        .genre-badge {
+            background: rgba(0, 255, 255, 0.05);
+            color: var(--accent, #00ffff);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: default;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .genre-badge:hover {
+            background: var(--accent, #00ffff);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            border-color: var(--accent, #00ffff);
+        }
+
+        .no-data {
+            color: #444;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        .synopsis {
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 40px;
+            border-left: 2px solid var(--accent, #00ffff);
+            padding-left: 20px;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, rgba(0,255,255,0.05) 0%, transparent 100%);
+        }
+
+        .review-form-section {
+            margin-bottom: 50px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 25px;
+        }
+
+        .section-header {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent, #00ffff);
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .review-input {
+            width: 100%;
+            background-color: #000;
+            border: 1px solid #444;
+            color: var(--text-main, #fff);
+            padding: 15px;
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .review-input:focus {
+            outline: none;
+            border-color: var(--accent, #00ffff);
+            box-shadow: 0 0 10px rgba(0,255,255,0.1);
+        }
+
+        .btn-submit {
+            background: transparent;
+            border: 1px solid var(--accent, #00ffff);
+            color: var(--accent, #00ffff);
+            padding: 10px 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+            float: right;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent, #00ffff);
+            color: black;
+            box-shadow: 0 0 15px var(--accent, #00ffff);
+        }
+
+        .comment-entry {
+            background: rgba(15, 15, 15, 0.8); /* Fondo oscuro semitransparente */
+            border-left: 3px solid rgba(0, 255, 255, 0.3); /* Borde cian apagado */
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-family: 'Roboto Mono', monospace; /* Fuente tipo hacker */
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .comment-entry:hover {
+            background: rgba(20, 20, 20, 1);
+            border-left-color: #00ffff; /* Cian brillante */
+            box-shadow: -5px 0 15px rgba(0, 255, 255, 0.1);
+        }
+
+        .comment-header {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            color: #555;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+        }
+
+        .prefix {
+            color: var(--accent, #00ffff);
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .agent-name {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comment-body p {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .comment-footer {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .timestamp {
+            font-size: 0.7rem;
+            color: #666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .score-display {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #050505;
+            border: 1px solid #333;
+            border-top: 2px solid var(--accent, #00ffff);
+            padding: 5px 10px;
+            text-align: center;
+            min-width: 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 900px) {
+            .content-wrapper { grid-template-columns: 1fr; margin-top: -50px; }
+            .sidebar { max-width: 300px; margin: 0 auto; }
+            .series-title { font-size: 2.5rem; text-align: center; }
+            .meta-tags { justify-content: center; }
+        }
+    </style>
+
+    <div class="scanlines"></div>
+
+    <div class="hero-banner">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <main class="content-wrapper">
+
+        <aside class="sidebar">
+            <div class="poster-frame">
+                <img src="{{ serie.posterPath ? 'https://image.tmdb.org/t/p/w500' ~ serie.posterPath : asset('imagenes/no_data.png') }}" alt="Poster" class="poster-img">
+            </div>
+
+            <div class="score-panel">
+                <div class="big-score">{{ serie.voteAverage|round(2) }}</div>
+                <div class="total-score">/ 10 SYSTEM SCORE</div>
+            </div>
+
+            <a href="{{ path('app_serie') }}" class="btn-submit" style="text-align: center; float: none; display: block; text-decoration: none;">
+                < Volver a la DB
+            </a>
+        </aside>
+
+        <section class="info-col">
+            <h1 class="series-title">{{ serie.name }}</h1>
+
+            <div class="meta-tags-container">
+                <div class="meta-group info">
+                    <div class="tag highlight">
+                        {% if serie.firstAirDate %}
+                        <span class="label">ESTRENO:</span> {{ serie.firstAirDate}}
+                        {% else %}
+                        <span class="label">ESTRENO:</span> No Data
+                        {% endif %}
+                    </div>
+                    <div class="tag">
+                        <span class="label">POPULARIDAD:</span> {{ serie.popularity|round(2) }}
+                    </div>
+                    <div class="tag">
+                        <span class="label">VOTOS:</span> {{ serie.voteCount }}
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="meta-group genres">
+                    {% if serie.generos is not empty %}
+                        {% for genero in serie.generos %}
+                            <span class="genre-badge">{{ genero.name }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="no-data">SIN CLASIFICACIÓN</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p class="synopsis">
+                >> ACCEDIENDO A ARCHIVO NARRATIVO...<br><br>
+                {{ serie.overview ?: 'Datos corruptos. No hay descripción disponible para este archivo.' }}
+            </p>
+
+            <div class="review-form-section">
+                <h3 class="section-header">INPUT_DATA // Añadir Reseña</h3>
+
+                <form action="{{ path('app_serieValoracion', {'id': serie.id}) }}" method="post">
+                    <textarea name="comentario" required class="review-input" placeholder="Ingrese su análisis técnico aquí, agente..."></textarea>
+
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <label style="color: #888;">CALIFICACIÓN:</label>
+                        <input name="nota" type="number" step="0.01" min="0" max="10" value="5" style="background:#000; border:1px solid #444; color:white; padding:5px; width: 60px;">
+                    </div>
+
+                    <button type="submit" class="btn-submit">SUBIR DATOS</button>
+                    <div style="clear: both;"></div>
+                </form>
+            </div>
+
+            <div class="comms-log">
+                <h3 class="section-header">COMMS_LOG (Últimas Opiniones)</h3>
+                {% for valoracion in serie.valoraciones %}
+                    <div class="comment-entry">
+
+                        <div class="score-display">
+                            <span class="score-label">VALORACIÓN</span>
+                            <span class="score-value">{{ valoracion.nota }}<small>/10</small></span>
+                        </div>
+
+                        <div class="comment-header">
+                            <span class="prefix">> AGENTE_ID:</span>
+                            <span class="agent-name">{{ valoracion.usuario.nombre }}</span>
+                        </div>
+                        <div class="comment-body">
+                            <p>"{{ valoracion.comentario }}"</p>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="timestamp">SYS_DATE: {{ valoracion.fecha|date('d/m/Y') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </section>
+    </main>
+{% endblock %}

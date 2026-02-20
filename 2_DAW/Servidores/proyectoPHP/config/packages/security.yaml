@@ -1,0 +1,54 @@
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # 1. AQUÍ DEFINIMOS QUE LOS USUARIOS VIENEN DE LA BD (Entidad Usuario)
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\Usuario
+                property: correo  # <--- Importante: Usamos el correo para identificarlos
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt|assets|build)/
+            security: false
+        main:
+            lazy: true
+            # 2. DECIMOS AL FIREWALL QUE USE EL PROVEEDOR DE ARRIBA
+            provider: app_user_provider
+
+            access_denied_handler: App\Security\Error403
+
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+
+                # 3. CONFIGURACIÓN DE NOMBRES DE INPUTS
+                # IMPORTANTE: Con estas dos líneas, tu HTML debe tener name="correo" y name="contrasena"
+                # Si en tu HTML tienes name="_username", BORRA ESTAS LÍNEAS.
+                username_parameter: correo
+                password_parameter: contrasena
+
+                default_target_path: app_login_redirect
+                always_use_default_target_path: true
+
+            logout:
+                path: app_logout
+                target: app_home
+                # target: app_login
+
+    access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

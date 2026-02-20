@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ categoria.nombre }} | NOTA{% endblock %}
+
+{% block body %}
+    <style>
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .leaderboard-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .lb-header {
+            display: flex;
+            padding: 15px;
+            border-bottom: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: 'Archivo Black', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .lb-row {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            transition: 0.2s;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0) 100%);
+        }
+        .lb-row:hover {
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.1) 0%, transparent 100%);
+            transform: translateX(10px);
+        }
+        .col-rank, .lb-rank { width: 10%; font-size: 1.5rem; font-weight: bold; font-family: 'Archivo Black'; }
+        .col-serie, .lb-serie { width: 50%; display: flex; align-items: center; gap: 15px; }
+        .col-votes, .lb-votes { width: 20%; color: #888; font-family: 'Courier New'; }
+        .col-score, .lb-score { width: 20%; font-size: 1.5rem; font-family: 'Archivo Black'; color: #fff; text-align: right; }
+        .lb-img { width: 40px; height: 60px; object-fit: cover; border: 1px solid #555; }
+        .lb-name { font-weight: bold; text-transform: uppercase; }
+        .rank-1 { border-left: 5px solid #FFD700; background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%); }
+        .rank-1 .lb-rank, .rank-1 .lb-score { color: #FFD700; text-shadow: 0 0 10px #FFD700; }
+        .rank-2 { border-left: 5px solid #C0C0C0; background: linear-gradient(90deg, rgba(192, 192, 192, 0.1) 0%, transparent 100%); }
+        .rank-2 .lb-rank, .rank-2 .lb-score { color: #C0C0C0; text-shadow: 0 0 10px #C0C0C0; }
+        .rank-3 { border-left: 5px solid #cd7f32; background: linear-gradient(90deg, rgba(205, 127, 50, 0.1) 0%, transparent 100%); }
+        .rank-3 .lb-rank, .rank-3 .lb-score { color: #cd7f32; text-shadow: 0 0 10px #cd7f32; }
+        .lb-rank { color: #555; }
+
+        .page-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px;
+            padding-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            margin: 0;
+            border-left: 6px solid var(--neon-cyan, #00f3ff);
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        .lb-empty {
+            padding: 50px;
+            text-align: center;
+            color: #666;
+            font-family: 'Courier New';
+            letter-spacing: 2px;
+            border: 1px dashed #333;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: var(--font-body);
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            width: fit-content;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 15px var(--accent-dim);
+        }
+    </style>
+
+    <div class="scanlines"></div>
+
+    <div class="container mt-5">
+
+        <div class="page-header-flex">
+            <div class="section-title">{{ categoria.nombre }}</div>
+
+            <a href="{{ app.user ? path('app_rankingEspecifico', {'id': categoria.id}) : path('app_registro') }}" class="btn">
+                <i class="fas fa-trophy"></i> IR A MI RANKING
+            </a>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="lb-header">
+                <div class="col-rank">#</div>
+                <div class="col-serie">SERIE_DATA</div>
+                <div class="col-votes">VOTES</div>
+                <div class="col-score">POINTS</div>
+            </div>
+
+            {% for item in leaderboard %}
+                <div class="lb-row rank-{{ loop.index }}">
+
+                    <div class="lb-rank">{{ loop.index }}</div>
+
+                    <div class="lb-serie">
+                        {% if item.serie.posterPath %}
+                            <img src="https://image.tmdb.org/t/p/w200{{ item.serie.posterPath }}" class="lb-img">
+                        {% endif %}
+                        <span class="lb-name">{{ item.serie.name }}</span>
+                    </div>
+
+                    <div class="lb-votes">{{ item.votos }} <span class="tiny-text">USERS</span></div>
+
+                    <div class="lb-score">{{ item.puntos }}</div>
+                </div>
+            {% else %}
+                <div class="lb-empty">
+                    > SYSTEM_MESSAGE: NO_DATA_STREAM_AVAILABLE <br>
+                    > INITIATE_VOTING_SEQUENCE
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

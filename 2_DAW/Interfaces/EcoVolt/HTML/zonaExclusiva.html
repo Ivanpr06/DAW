@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoVolt || Zona Exclusiva</title>
+  <link rel="stylesheet" href="../CSS/zonaExclusiva.css">
+  <link rel="shortcut icon" href="../Img/logo2.ico" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <!--Navbar-->
+  <header>
+    <div class="navbar_body">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary"
+        style="background-color: #D9D9D9 !important; padding-top:20px;">
+        <div class="container-fluid" style="padding: 0;">
+          <a class="navbar-brand" href="./home.html">
+            <div class="header_logo">
+              <img class="logo_navbar_img" src="../Img/logo1.png">
+              <h3 class="logo_navbar_text">EcoVolt</h3>
+            </div>
+          </a>
+          <button class="navbar-toggler border-0 smooth-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation" onclick="toggleMenuIcon(this)">
+            <div class="icon-wrapper">
+              <img id="menuIcon" src="../Img/toggle.png" alt="Menu" class="menu-image">
+            </div>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link navbar_opciones" href="./home.html#carusel_productos">Productos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar_opciones" href="./home.html#carusel_casosEstudiados">Casos Estudiados</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link navbar_opciones" href="./personalizacion.html">Personalización</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar_opciones" href="./sobreNosotros.html">Sobre Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar_opciones" href="./inicioSesion.html">Zona Exclusiva</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!--Main-->
+  <main>
+    <div class="zonaExclusiva">
+      <h1 class="h1_zonaExclusiva">Bienvenido Iván</h1>
+      <div class="zonaExclusiva_grafico">
+        <div class="grafico1">
+          <img src="../Img/zonaExclusiva_grafica1.png" alt="grafica1">
+        </div>
+      </div>
+      <h2 class="h2_zonaExclusiva">Energia Consumida</h2>
+
+      <div class="contenedor_tabla">
+        <div class="grafico2"><img src="../Img/zonaExclusiva_grafica2.png" alt="grafica2"></div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Uso</th>
+                <th>% del total</th>
+                <th>Consumo mensual</th>
+                <th>Equivalente diario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Uso">Frigorífico y congelador</td>
+                <td data-label="% del total">30%</td>
+                <td data-label="Consumo mensual">75 kWh</td>
+                <td data-label="Equivalente diario">2,5 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Iluminación</td>
+                <td data-label="% del total">12%</td>
+                <td data-label="Consumo mensual">30 kWh</td>
+                <td data-label="Equivalente diario">1,0 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Lavadora, lavavajillas y secadora</td>
+                <td data-label="% del total">15%</td>
+                <td data-label="Consumo mensual">40 kWh</td>
+                <td data-label="Equivalente diario">1,3 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Cocina eléctrica / horno</td>
+                <td data-label="% del total">10%</td>
+                <td data-label="Consumo mensual">35 kWh</td>
+                <td data-label="Equivalente diario">1,2 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Televisión y dispositivos ocio</td>
+                <td data-label="% del total">8%</td>
+                <td data-label="Consumo mensual">25 kWh</td>
+                <td data-label="Equivalente diario">0,8 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Ordenador, router y ofimática</td>
+                <td data-label="% del total">5%</td>
+                <td data-label="Consumo mensual">15 kWh</td>
+                <td data-label="Equivalente diario">0,5 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Climatización</td>
+                <td data-label="% del total">15%</td>
+                <td data-label="Consumo mensual">40 kWh</td>
+                <td data-label="Equivalente diario">1,3 kWh/día</td>
+              </tr>
+              <tr>
+                <td data-label="Uso">Otros pequeños consumos</td>
+                <td data-label="% del total">5%</td>
+                <td data-label="Consumo mensual">15 kWh</td>
+                <td data-label="Equivalente diario">0,5 kWh/día</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="contenedor_factura">
+        <div class="factura_mensual">
+          <div class="factura_titulo">
+            <h2>Factura Septiembre 2025</h2>
+            <h1>32,90€</h1>
+          </div>
+
+          <div class="factura_info">
+            <div class="factura_titulo">
+              <p>Coste diario promedio</p>
+              <p>1,10 €/día</p>
+            </div>
+            <div class="factura_titulo">
+              <p>Sin placas solares</p>
+              <p>75,78 €</p>
+            </div>
+            <div class="factura_titulo">
+              <p>Ahorro mensual</p>
+              <p>55 %</p>
+            </div>
+            <div class="factura_titulo">
+              <p>Huella de carbono evitada</p>
+              <p>60 kg de CO₂</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contenedor_placas">
+        <h2 class="h2_zonaExclusiva" style="text-align: end;">Tus Placas Solares</h2>
+        <div class="placas_info">
+          <div class="placas_texto">
+            <div class="factura_titulo">
+              <p>Tipo :</p>
+              <p>30 Paneles PERC</p>
+            </div>
+
+            <div class="factura_titulo">
+              <p>Materiales :</p>
+              <p style="text-align: end;">Silicio monocristalino con capa trasera<br> pasivada que reduce pérdidas.</p>
+            </div>
+
+            <div class="factura_titulo">
+              <p>Eficiencia :</p>
+              <p>23%</p>
+            </div>
+
+            <div class="factura_titulo">
+              <p>Caracteristicas Únicas :</p>
+              <p style="text-align: end;">Mejor tolerancia al calor<br> Eficiencia insuperable</p>
+            </div>
+
+            <div class="factura_titulo">
+              <p>Vida Útil :</p>
+              <p>30 años</p>
+            </div>
+
+            <div class="factura_titulo">
+              <p>Color :</p>
+              <p>Negro</p>
+            </div>
+          </div>
+          <div class="img_info">
+            <img src="../Img/Modern Minimalist House.png" alt="zonaExclusiva1">
+          </div>
+        </div>
+      </div>
+
+      <div class="contenedor_contacto">
+        <h2 class="h2_zonaExclusiva">Contacta Con Nosotros</h2>
+        <div class="contenedor_contacto_texto_principal">
+          <div class="contenedor_contacto_texto_principal2">
+            <p>En EcoVolt estamos disponibles las 24 horas del día, los 7 días de la semana para atender tus consultas y
+              ayudarte a dar el paso hacia la energía solar.
+              Ya sea que necesites información sobre nuestros paneles solares, asesoramiento personalizado o soporte
+              técnico, nuestro equipo estará siempre listo para responderte.</p>
+          </div>
+        </div>
+
+        <div class="contenedor_contacto_texto">
+          <div class="contenedores_texto">
+            <h3>Contactanos</h3>
+            <p>Correo electrónico:<br> ecovolt@gmail.com</p>
+            <p>Teléfono / WhatsApp:<br> +34 611 234 56</p>
+            <p>Dirección:<br> Calle Núñez de Balboa, 120. Madrid</p>
+          </div>
+
+          <div class="contenedor_contacto_img">
+            <img src="../Img/zonaExclusiva_contactanos.png" alt="contactanos">
+          </div>
+
+          <div class="contenedores_texto" style="text-align: end;">
+            <h3>Habla Con Nosotros</h3>
+            <p>Para problemas inmediatos acceda a nuestro chat donde se le responderá sus dudas al instante</p>
+            <div class="contenedor_contacto_boton">
+              <button class="contenedor_contacto_texto_boton">
+                <p>Chat</p>
+                <img src="../Img/chat.png" alt="chat">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!--Footer-->
+  <footer>
+    <div class="footer">
+      <div class="footerLogo">
+        <img src="../Img/logo2.png" alt="logo">
+        <h1>EcoVolt</h1>
+      </div>
+      <div class="footerTexto">
+        <div class="footerdescripcion">
+          <p>Instagram</p>
+          <p>Linkedin</p>
+          <p>Facebook</p>
+        </div>
+        <div class="footerdescripcion">
+          <p>España</p>
+          <p>Sevilla</p>
+          <p>+34 912 345 678</p>
+        </div>
+        <div class="footerdescripcion">
+          <p>España</p>
+          <p>Madrid</p>
+          <p>+34 611 234 567</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="../JS/navbar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoVolt || Home</title>
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="shortcut icon" href="../Img/logo2.ico" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!--Navbar-->
+    <header>
+        <div class="navbar_body">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary"
+                style="background-color: #D9D9D9 !important; padding-top:20px;">
+                <div class="container-fluid" style="padding: 0;">
+                    <a class="navbar-brand" href="./home.html">
+                        <div class="header_logo">
+                            <img class="logo_navbar_img" src="../Img/logo1.png">
+                            <h3 class="logo_navbar_text">EcoVolt</h3>
+                        </div>
+                    </a>
+                    <button class="navbar-toggler border-0 smooth-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation" onclick="toggleMenuIcon(this)">
+                        <div class="icon-wrapper">
+                            <img id="menuIcon" src="../Img/toggle.png" alt="Menu" class="menu-image">
+                        </div>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link navbar_opciones" href="#carusel_productos">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link navbar_opciones" href="#carusel_casosEstudiados">Casos Estudiados</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link navbar_opciones" href="./personalizacion.html">Personalización</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link navbar_opciones" href="./sobreNosotros.html">Sobre Nosotros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link navbar_opciones" href="./inicioSesion.html">Zona Exclusiva</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!--Parte Principal-->
+        <div class="home">
+            <div class="parte_principal">
+                <div class="parte_principal_parte1">
+                    <h1>Decoración y energía solar, unidos para un futuro mejor.</h1>
+                    <div class="parte_principal_texto">
+                        <div class="parte_principal_texto1">
+                            <div>
+                                <p>España</p>
+                                <p>Sevilla</p>
+                                <p>+34 912 345 678</p>
+                            </div>
+                            <div>
+                                <p>España</p>
+                                <p>Madrid</p>
+                                <p>+34 611 234 567</p>
+                            </div>
+                        </div>
+
+                        <div class="parte_principal_texto2">
+                            <p>Desde 2021</p>
+                        </div>
+                    </div>
+                    <div class="parte_principal_img">
+                        <img src="../Img/Proyecto nuevo (2).png" alt="Imagen de panel solar decorativo">
+
+                    </div>
+                </div>
+                <div class="parte_principal_parte2">
+                    <video src="../Img/videohome.mp4" loop="true" autoplay muted></video>
+                </div>
+            </div>
+
+            <div class="parte_cliente">
+                <div class="cliente_texto">
+                    <h4>Clientes</h4>
+                    <p>Más de 4 años colaborando con las mejores empresas para<br> poducir energía renovable y
+                        contribiur a salvar el planeta</p>
+                </div>
+                <div class="carusel_empresas">
+                    <img class="carusel_empresas_img1" src="../Img/Imagina Energía.png"
+                            alt="Imagina Energía">
+                        <img class="carusel_empresas_img2" src="../Img/Barbadillo.png" alt="Barbadillo">
+                        <img class="carusel_empresas_img2" src="../Img/DINOTEC.png" alt="DINOTEC">
+                        <img class="carusel_empresas_img2" src="../Img/Repsol.png" alt="Repsol">
+                        <img class="carusel_empresas_img2" src="../Img/Gonzales-Byass.png" alt="Gonzales-Byass">
+                        <img class="carusel_empresas_img1" src="../Img/Williams & Humbert.png" alt="Williams & Humbert">
+                </div>
+            </div>
+
+            <div class="carusel_fotos">
+                <div class="carusel_fotos_exposicion">
+                    <img class="carusel_fotos_img1" src="../Img/home3.jpeg" alt="home3">
+                    <img class="carusel_fotos_img2" src="../Img/home4.jpeg" alt="home4">
+                    <img class="carusel_fotos_img3" src="../Img/home5.jpeg" alt="home5">
+                    <img class="carusel_fotos_img4" src="../Img/home6.jpeg" alt="home6">
+                </div>
+                <div class="carusel_fotos_texto">
+                    <div class="carusel_fotos_texto1">
+                        <h1>Decoración Verde</h1>
+                    </div>
+                    <div class="carusel_fotos_texto2">
+                        <p>Que la contaminación no te impida crear la casa de tus sueños</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AGREGADO: ID al carrusel de productos -->
+            <section id="carusel_productos" class="carusel_productos">
+                <div class="cliente_texto">
+                    <h4>Nuestros Productos</h4>
+                </div>
+                <div class="productos_texto">
+                    <h1>Disfruta de la maxima calidad y personalización</h1>
+                </div>
+                <div class="carusel_producto_exposicion">
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>Monocristalinos</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home7.jpeg" alt="home7"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>Policristalinos</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home8.jpeg" alt="home8"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>Thin-Film</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home9.jpeg" alt="home9"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>Bifaciales</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home10.jpeg" alt="home10"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carusel_producto_exposicion">
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>PERC</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home11.png" alt="home11"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>HJT</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home12.png" alt="home12"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./productos.html" class="carusel_producto_exposicion_texto">
+                            <h5>TOPCon</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <div class="carusel_producto_exposicion_img">
+                            <a href="./productos.html"><img src="../Img/home13.png" alt="home13"></a>
+                        </div>
+                    </div>
+
+                    <div class="carusel_producto_exposicion_ejemplo">
+                        <a href="./personalizacion.html" class="carusel_producto_exposicion_texto">
+                            <h5>Más Información</h5>
+                            <img src="../Img/flecha.png" alt="flecha">
+                        </a>
+                        <a href="./personalizacion.html" class="carusel_producto_exposicion_img1">
+                            <img src="../Img/homePersonalizacion.png" alt="homePersonalizacion">
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <div class="materiales">
+                <div class="cliente_texto">
+                    <h4>Porque EcoVolt ?</h4>
+                </div>
+                <div class="materiales_exposicion">
+                    <div class="materiales_exposicion_texto">
+                        <h2>No todo es el diseño</h2>
+                        <p>Por eso trabajamos únicamente con paneles solares certificados internacionalmente,
+                            inversores de alta eficiencia y baterías de litio de última generación. No elegimos lo
+                            más barato, sino lo que mejor funciona a lo largo del tiempo.<br>Cada componente ha sido
+                            diseñado para resistir condiciones extremas: calor intenso, lluvias, granizo o viento.
+                            Las estructuras de montaje están fabricadas en aleaciones resistentes a la corrosión,
+                            los paneles cuentan con acabados full black elegantes y duraderos, y las baterías
+                            ofrecen una vida útil que supera con creces la media del sector.</p>
+                    </div>
+                    <div class="materiales_exposicion_imagenes">
+                        <div class="materiales_exposicion_imagenes_carusel">
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/waterproof-fabric.png" alt="Resistente al agua">
+                                <p>Resistente al agua</p>
+                            </div>
+
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/heat.png" alt="Resistente al calor">
+                                <p>Resistente al
+                                    calor</p>
+                            </div>
+
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/drop.png" alt="Resistente corrosivo">
+                                <p>Resistente
+                                    corrosivo</p>
+                            </div>
+
+                        </div>
+                        <div class="materiales_exposicion_imagenes_carusel">
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/layers.png" alt="Mejores materiales del mercado">
+                                <p>Mejores materiales</p>
+                            </div>
+
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/recycle.png" alt="Ecosostenible">
+                                <p>Ecosostenible</p>
+                            </div>
+
+                            <div class="materiales_caracteristicas">
+                                <img src="../Img/worldwide.png" alt="Conocido mundialmente">
+                                <p>Conocido
+                                    mundialmente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="home2">
+            <div class="personalizacion">
+                <div class="cliente_texto_home2">
+                    <h4>Opciones Personalizadas</h4>
+                </div>
+                <div class="personalizacion_titulo">
+                    <h2>En EcoVolt nos encargamos en transformar la energia en una manera más sostenible sin dejar de
+                        lado la estetica </h2>
+                </div>
+                <div class="personalizacion_contenido">
+                    <div class="personalizacion_contenido_imagen">
+                        <img src="../Img/personalizacionHome.jpeg" alt="">
+                    </div>
+                    <div id="accordion-flush">
+                        <div class="accordion-item">
+                            <button class="accordion-btn" style="padding-top: 0;" aria-expanded="true">
+                                <span>Casas Particulares </span>
+                                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body open">
+                                <p>Imagina un hogar más sostenible, moderno y eficiente. Con EcoVolt puedes decorar
+                                    tu casa con elegancia y generar tu propia energía limpia. Nuestras placas
+                                    solares transforman la luz del sol en ahorro real en tu factura, con diseños que
+                                    se integran perfectamente en tu tejado.</p>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <button class="accordion-btn" aria-expanded="false">
+                                <span>Comunidad Vecinos </span>
+                                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body">
+                                <p>La energía solar es la mejor inversión para una comunidad. Con un sistema
+                                    compartido, todos los vecinos disfrutan de electricidad más barata, zonas
+                                    comunes más eficientes y un edificio más sostenible. Además, revalorizamos la
+                                    propiedad mientras reducimos las emisiones de CO₂.</p>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <button class="accordion-btn" aria-expanded="false">
+                                <span>Grandes Empresas</span>
+                                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body">
+                                <p>La transición energética es una oportunidad estratégica. Con EcoVolt, tu empresa
+                                    reduce costes operativos, cumple con normativas medioambientales y proyecta una
+                                    imagen innovadora y comprometida con el planeta. Soluciones a medida para
+                                    maximizar tu energía sin afectar tu actividad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- AGREGADO: ID al carrusel de casos estudiados -->
+                <section id="carusel_casosEstudiados" class="carusel_casosEstudiados">
+                    <div class="cliente_texto_home2" style="border-top: 1px solid #D9D9D9; padding-top: 2%;">
+                        <h4>Nuestro Trabajo</h4>
+                    </div>
+                    <div class="parent">
+                        <div class="parent1">
+                            <div class="div1">
+                                <h2>Observa en quien
+                                    confiaron en nosotros</h2>
+                            </div>
+
+                            <div class="div2">
+                                <a href="./casosEstudiados.html"><img src="../Img/residencial (2).png"
+                                        alt="residencial"></a>
+                            </div>
+
+                            <div class="div3">
+                                <h5>Puerto Banus Marbella, Málaga</h5>
+                                <p>Casas Vecinales</p>
+                            </div>
+
+                            <div class="div4" >
+                                <a href="./casosEstudiados.html"><img src="../Img/empresa (2).png" alt="empresa"></a>
+                            </div>
+
+                            <div class="div5">
+                                <h5>Telefónica, Madrid</h5>
+                                <p>Empresa</p>
+                            </div>
+                        </div>
+                        <div class="parent2">
+                            <div class="div6">
+                                <a href="./casosEstudiados.html"><img src="../Img/hotel (2).png" alt="hotel"></a>
+                            </div>
+
+                            <div class="div7">
+                                <h5>Palma, Mallorca</h5>
+                                <p>Hotel 5 estrellas </p>
+                            </div>
+
+                            <div class="div8">
+                                <a href="./casosEstudiados.html"><img src="../Img/casaParticular (2).png" alt="casa"></a>
+                            </div>
+                            <div class="div9">
+                                <h5>Somió, Asturias</h5>
+                                <p>Casa Particular</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+    </main>
+
+    <!--Footer-->
+    <footer>
+        <div class="footer">
+            <div class="footerLogo">
+                <img src="../Img/logo2.png" alt="logo">
+                <h1>EcoVolt</h1>
+            </div>
+            <div class="footerTexto">
+                <div class="footerdescripcion">
+                    <p>Instagram</p>
+                    <p>Linkedin</p>
+                    <p>Facebook</p>
+                </div>
+                <div class="footerdescripcion">
+                    <p>España</p>
+                    <p>Sevilla</p>
+                    <p>+34 912 345 678</p>
+                </div>
+                <div class="footerdescripcion">
+                    <p>España</p>
+                    <p>Madrid</p>
+                    <p>+34 611 234 567</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="../JS/home.js"></script>
+</body>
+
+</html>

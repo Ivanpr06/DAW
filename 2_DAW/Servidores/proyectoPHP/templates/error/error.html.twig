@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SYSTEM FAILURE | SIGNAL LOST{% endblock %}
+
+{% block body %}
+    <style>
+        /* Fondo de error: Oscuro y rojo/cian */
+        .error-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #050505;
+            color: #ff3e3e; /* Rojo Error403 */
+            font-family: 'Courier New', monospace; /* Fuente tipo Terminal */
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Ruido de fondo (Noise) */
+        .noise {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif'); /* Gif de ruido TV */
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Efecto Glitch en el título */
+        .glitch-title {
+            font-size: 8rem;
+            font-weight: bold;
+            position: relative;
+            color: white;
+            letter-spacing: -5px;
+            z-index: 1;
+            text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff;
+            animation: glitch-anim 2s infinite;
+        }
+
+        .error-msg {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            background: #111;
+            padding: 10px 20px;
+            border: 1px solid #333;
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .error-code {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        /* Botón de regreso estilo Cyberpunk */
+        .btn-reboot {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            font-family: inherit;
+            font-size: 1.2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn-reboot:hover {
+            background: #00ffff;
+            color: black;
+            box-shadow: 0 0 20px #00ffff;
+            cursor: pointer;
+        }
+
+        /* Animación del Glitch */
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+    </style>
+
+    <div class="error-page">
+        <div class="noise"></div>
+
+        <div class="glitch-title" data-text="{{ status_code|default('ERROR') }}">
+            {{ status_code|default('ERROR') }}
+        </div>
+
+        <div class="error-msg">
+            [SYSTEM_FAILURE]: ACCESS DENIED / SIGNAL LOST
+        </div>
+
+        <a href="{{ path('app_home') }}" class="btn-reboot">
+            VOLVER_HOME
+        </a>
+    </div>
+
+{% endblock %}

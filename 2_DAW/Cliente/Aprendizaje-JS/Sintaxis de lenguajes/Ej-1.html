@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1</title>
+    <style>
+        .text {
+            padding: 5px;
+        }
+
+        .boton {
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .todo-grid,
+        .todo-input-grid {
+            display: grid;
+            grid-template-columns: 200px 150px 100px;
+            column-gap: 10px;
+            row-gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <!--Ej 1-->
+    <h1>Ejercicio 1</h1>
+    <p>Introduce una frase</p>
+    <input class="inputEj">
+    <button onclick="asteriscos()">Poner Asteriscos</button>
+    <button onclick="guionBajo()">Poner _</button>
+    <br>
+
+    <!--Ej 2-->
+    <h3>Ingresar Palabras</h3>
+    <input class="inputPalabras">
+    <br><br>
+
+    <h3>Orden Lista</h3>
+    <p class="listaordenada"></p>
+    <button onclick="ordenar()">Ordenar</button>
+    <br>
+
+    <h3>Verficar/Añadir Palabra</h3>
+    <p>Buscar/Añadir Palabra</p>
+    <input class="inputbusqueda">
+    <button onclick="buscar()">Buscar o Añadir</button>
+    <p class="nuevoOrdenado"></p>
+
+    <!--Ej 3-->
+    <h1>Información Alumnos</h1>
+    <p class="info"></p>
+
+    <h3>Introduzca el alumno</h3>
+    <input class="input3">
+    <button onclick="vernota()">Ver Alumno</button>
+    <p class="nota_input3"></p>
+    <p class="notaMedia"></p>
+    <p class="nombreOrdenados"></p>
+
+    <!--Ej 4-->
+    <h1>Operaciones con Conjuntos</h1>
+    <p id="mensaje">Mira el log para ver el resultado</p>
+    <div id="resultados"></div>
+
+    <!--Ej 5-->
+    <h1>Dame Números</h1>
+    <input class="input4">
+    <button onclick="pedirNumeros()">Realizar Operación</button>
+    <p class="numerosUnicos"></p>
+    <p class="numeroMedia"><b></b></p>
+
+    <!--Ej 6-->
+    <h1>Verificar Palindromos</h1>
+    <input class="input5">
+    <button onclick="verificarPalindromo()">Verificar Palindromo</button>
+    <p class="verificarPalindromo"></p>
+
+    <!--Ej 7-->
+    <h2>To Do List</h2>
+    <div class="todo-input-grid">
+        <input class="js-input text" placeholder="Insert Action">
+        <input class="js-date-input text" type="date">
+        <button class="boton" onclick="
+            addTodo()
+            ">Añadir</button>
+    </div>
+
+    <div class="js-todo-list todo-grid"></div>
+
+
+    <script src="Ej-1.js"></script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+/* Tipografía */
+.caudex-regular {
+  font-family: "Caudex", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Caudex", serif;
+}
+
+body {
+  background-color: #D9D9D9 !important;
+  color: #0E0E0E;
+  margin: 0;
+}
+
+/* Navbar */
+.navbar_body {
+  background-color: #D9D9D9 !important;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.header_logo {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5%;
+}
+
+.logo_navbar_text {
+  align-content: center;
+  font-size: 2.5rem;
+}
+
+.logo_navbar_img {
+  width: 6rem;
+}
+
+.navbar_opciones {
+  color: #737373;
+  transition: color 0.25s;
+  font-size: 1.25rem !important;
+  margin-left: 10px;
+}
+
+.navbar_opciones:hover {
+  color: #0E0E0E !important;
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: inherit !important;
+}
+
+.smooth-toggler {
+  padding: 6px 8px;
+  transition: all 0.3s ease;
+}
+
+.icon-wrapper {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.smooth-toggler:hover .menu-image {
+  transform: scale(1.1);
+}
+
+.menu-image.closing {
+  opacity: 0;
+  transform: scale(0.8) rotate(-125deg);
+}
+
+.menu-image.opening {
+  opacity: 0;
+  transform: scale(0.8) rotate(125deg);
+}
+
+@media (max-width: 1350px) {
+
+  .logo_navbar_text {
+    font-size: 2rem;
+  }
+
+  .logo_navbar_img {
+    width: 5rem;
+  }
+
+  .navbar_opciones {
+    font-size: 1.15rem !important;
+  }
+}
+
+@media (max-width: 1130px) {
+  .logo_navbar_text {
+    font-size: 1.5rem;
+  }
+
+  .logo_navbar_img {
+    width: 4rem;
+  }
+
+  .navbar_opciones {
+    font-size: 1rem !important;
+  }
+}
+
+/* Contenido */
+.zonaExclusiva {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.h1_zonaExclusiva {
+  font-size: 80px;
+  margin-top: 1.5%;
+}
+
+.zonaExclusiva_grafico {
+  display: flex;
+  justify-content: center;
+}
+
+.grafico1 {
+  width: 90%;
+  margin-bottom: 5%;
+}
+
+.grafico1 img {
+  width: 100%;
+}
+
+.h2_zonaExclusiva {
+  font-size: 40px;
+}
+
+.contenedor_tabla {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2%;
+}
+
+.grafico2 {
+  width: 49%;
+}
+
+.grafico2 img {
+  width: 100%;
+}
+
+.table-container {
+  width: 49%;
+}
+
+table {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 1.25rem;
+}
+
+th {
+  font-weight: 600;
+  border-bottom: 1px solid #737373 !important;
+}
+
+
+.contenedor_factura {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.factura_mensual {
+  background-color: #376342;
+  border-radius: 25px;
+  padding: 25px 50px;
+  width: 60%;
+  color: #D9D9D9;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.factura_info {
+  width: 80%;
+}
+
+.factura_titulo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2%;
+}
+
+.factura_titulo p {
+  font-size: 25px;
+}
+
+.factura_titulo h1 {
+  font-size: 50px;
+}
+
+.contenedor_placas {
+  align-items: end;
+}
+
+.placas_info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5%;
+  gap: 2%;
+  margin-bottom: 5%;
+
+}
+
+.placas_texto {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.img_info {
+  width: 50%;
+  display: flex;
+  justify-content: end;
+  overflow: hidden;
+}
+
+.img_info img {
+  width: 100%;
+  transition: transform 1s ease;
+}
+
+.img_info img:hover {
+  transform: scale(1.2);
+}
+
+.contenedor_contacto_texto_principal {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2%;
+}
+
+.contenedor_contacto_texto_principal2 {
+  width: 80%;
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+.contenedor_contacto_texto_principal2 p {
+  font-size: 25px;
+}
+
+.contenedor_contacto_texto {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+.contenedores_texto {
+  width: 25%;
+  align-content: baseline;
+  margin-top: 2%;
+}
+
+.contenedores_texto h3 {
+  font-size: 40px;
+}
+
+.contenedores_texto p {
+  font-size: 25px;
+  margin-bottom: 8%;
+}
+
+.contenedor_contacto_img {
+  width: 40%;
+}
+
+.contenedor_contacto_img img {
+  width: 100%;
+  height: auto;
+}
+
+.contenedor_contacto_boton {
+  display: flex;
+  justify-content: end;
+  margin-top: 2%;
+}
+
+.contenedor_contacto_texto_boton {
+  display: flex;
+  border: none;
+  border-radius: 50px;
+  background-color: #0E0E0E;
+  color: #D9D9D9;
+  padding: 10px 25px;
+  gap: 10px;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  margin: 0px !important;
+}
+
+.contenedor_contacto_texto_boton p {
+  margin: 0;
+}
+
+.contenedor_contacto_texto_boton img {
+  width: 20px;
+  height: 20px;
+  transition: transform 1s ease;
+}
+
+.contenedor_contacto_texto_boton:hover img {
+  transform: rotate(25deg);
+}
+
+@media (max-width: 1650px) {
+
+  th,
+  td {
+    font-size: 1rem;
+  }
+
+  .factura_titulo p {
+    font-size: 20px;
+  }
+
+  .contenedor_contacto_texto_principal2 p {
+    font-size: 20px;
+  }
+
+  .contenedores_texto h3 {
+    font-size: 30px;
+  }
+
+  .contenedores_texto p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .h1_zonaExclusiva {
+    font-size: 60px;
+  }
+
+  .h2_zonaExclusiva {
+    font-size: 30px;
+  }
+
+  th,
+  td {
+    font-size: 0.75rem;
+  }
+
+  .factura_mensual {
+    width: 80%;
+  }
+
+  .factura_titulo p {
+    font-size: 15px;
+  }
+
+  .contenedor_contacto_texto_principal2 p {
+    font-size: 15px;
+  }
+
+  .contenedores_texto h3 {
+    font-size: 25px;
+  }
+
+  .contenedores_texto p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 991px) {
+  .contenedor_tabla {
+    flex-direction: column;
+  }
+
+  .grafico2 {
+    width: 75%;
+  }
+
+  .table-container {
+    width: 100%;
+  }
+
+  th,
+  td {
+    font-size: 1rem;
+  }
+
+  .placas_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .placas_texto {
+    width: 75%;
+    margin-bottom: 2.5%;
+    margin-left: 12.5%;
+  }
+
+  .placas_texto p {
+    font-size: 20px;
+  }
+
+  .img_info {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .img_info img {
+    width: 75%;
+  }
+
+  .img_info img:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 870px) {
+  .factura_titulo h1 {
+    font-size: 35px;
+  }
+}
+
+
+
+@media (max-width: 750px) {
+  .h1_zonaExclusiva {
+    font-size: 40px;
+  }
+
+  .h2_zonaExclusiva {
+    font-size: 25px;
+  }
+
+  th,
+  td {
+    font-size: 0.75rem;
+  }
+
+  .factura_mensual {
+    width: 100%;
+  }
+
+  .placas_texto {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .img_info img {
+    width: 100%;
+  }
+
+  .contenedor_contacto_img {
+    display: none;
+  }
+
+  .contenedores_texto {
+    width: 50%;
+    text-align: center !important;
+  }
+
+  .contenedor_contacto_boton {
+    justify-content: center;
+  }
+
+  .contenedor_contacto_texto_principal2{
+    width: 100%;
+  }
+
+  .contenedores_texto p {
+    margin-bottom: 0.5rem;
+  }
+
+  .contenedor_contacto_texto_boton p{
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .factura_titulo h1 {
+    font-size: 25px;
+  }
+
+  .factura_titulo h2{
+    font-size: 20px;
+  }
+  
+  .factura_titulo p {
+    font-size: 12.5px;
+  }
+
+  .contenedor_contacto_texto_principal2 p {
+    font-size: 12px;
+  }
+
+  .contenedores_texto h3 {
+    font-size: 20px;
+  }
+
+  .contenedores_texto p {
+    font-size: 12px;
+  }
+
+   table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5%;
+    justify-content: space-around;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    padding: 0.8rem;
+  }
+
+  td {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+  }
+}
+
+@media (max-width: 450px) {
+  .h1_zonaExclusiva {
+    font-size: 30px;
+  }
+
+  .h2_zonaExclusiva {
+    font-size: 20px;
+  }
+
+  tr{
+    width: 47%;
+    padding: 0;
+  }
+
+  td, th {
+    font-size: 7.5px;
+  }
+
+  .factura_mensual{
+    padding: 15px 25px;
+  }
+
+  .factura_titulo h1{
+    font-size: 20px;
+  }
+
+  .factura_titulo h2 {
+    font-size: 15px;
+  }
+
+  .factura_info p{
+    font-size: 10px;
+  }
+
+  .contenedor_contacto_texto{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contenedores_texto {
+    width: 100%;
+    margin-bottom: 3%;
+  }
+
+  .factura_titulo p {
+    font-size: 10px;
+  }
+
+  .contenedor_contacto_texto_boton img {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+
+/* Footer */
+.footer {
+  background-color: #A0A0A0;
+  color: #D9D9D9;
+  padding: 2% 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerLogo {
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+  width: 40%;
+  align-items: center;
+}
+
+.footerLogo img {
+  width: 250px;
+}
+
+.footerLogo h1 {
+  font-size: 125px;
+  text-align: center;
+}
+
+.footerTexto {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+
+.footerdescripcion p {
+  text-align: left !important;
+  font-size: 25px !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  margin: 0;
+}
+
+@media (max-width: 1800px) {
+  .footerLogo h1 {
+    font-size: 100px;
+  }
+
+  .footerLogo img {
+    width: 225px;
+  }
+
+  .footerdescripcion p {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 1300px) {
+  .footerLogo h1 {
+    font-size: 70px;
+  }
+
+  .footerLogo img {
+    width: 175px;
+  }
+
+  .footerdescripcion p {
+    font-size: 15px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .footer {
+    display: block;
+  }
+
+  .footerLogo h1 {
+    font-size: 50px;
+  }
+
+  .footerLogo img {
+    width: 125px;
+  }
+
+  .footerLogo {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footerTexto {
+    width: 100%;
+    margin-top: 2%;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 500px) {
+  .footerLogo h1 {
+    font-size: 30px;
+  }
+
+  .footerLogo img {
+    width: 75px;
+  }
+
+  .footerdescripcion p {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .footerdescripcion p {
+    font-size: 7.5px !important;
+  }
+}

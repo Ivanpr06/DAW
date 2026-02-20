@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMIN_SITE | CARTOON LOST{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block body %}
+<style>
+    .admin-container {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        min-height: 100vh;
+        font-family: 'Roboto Mono', monospace;
+        background-color: #020202;
+        color: #ccc;
+    }
+
+    .admin-content {
+        padding: 30px;
+        overflow-y: auto;
+    }
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #333;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+    .panel-header h1 {
+        font-size: 1.5rem;
+        margin: 0;
+        color: white;
+        font-weight: normal;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: #0a0a0a;
+        border: 1px solid #333;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::after {
+        content: ''; position: absolute; top: 0; right: 0;
+        width: 20px; height: 20px;
+        border-top: 2px solid var(--accent, #00ffff);
+        border-right: 2px solid var(--accent, #00ffff);
+    }
+
+    .stat-title { font-size: 0.7rem; color: #666; letter-spacing: 1px; margin-bottom: 10px; }
+    .stat-value { font-size: 2.5rem; color: white; font-weight: bold; margin-bottom: 10px; }
+    .stat-bar { height: 4px; background: #222; width: 100%; }
+    .stat-bar div { height: 100%; background: var(--accent, #00ffff); box-shadow: 0 0 10px var(--accent, #00ffff); }
+
+    /* Tarjeta de alerta (ej. color rojo o naranja) */
+    .stat-card.alert .stat-bar div { background: #ffaa00; box-shadow: 0 0 10px #ffaa00; }
+    .stat-card.alert::after { border-color: #ffaa00; }
+
+
+    /* --- TABLAS CYBERPUNK --- */
+    .cyber-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        text-align: left;
+    }
+
+    .cyber-table th {
+        background: #111;
+        color: #666;
+        padding: 10px 15px;
+        font-weight: normal;
+        border-bottom: 2px solid #333;
+    }
+
+    .cyber-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #222;
+        color: #999;
+    }
+
+    .cyber-table tr:hover {
+        background: rgba(0, 255, 255, 0.03); /* Highlight al pasar el mouse */
+    }
+
+    .btn-mini {
+        background: transparent;
+        border: 1px solid #444;
+        color: var(--accent, #00ffff);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.7rem;
+        padding: 2px 5px;
+    }
+    .btn-mini:hover { background: var(--accent, #00ffff); color: black; }
+</style>
+
+    <div class="admin-container">
+        {% include 'admin/adminNavbar.html.twig' %}
+        <main class="admin-content">
+
+            <div class="panel-header">
+                <h1>ROOT_ACCESS // DASHBOARD</h1>
+                <div class="clock" id="sys-clock">00:00:00 UTC</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">TOTAL SERIES</div>
+                    <div class="stat-value">{{ totalSeries }}</div>
+                    <div class="stat-bar"><div style="width: 70%"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">TOTAL VALORACIONES</div>
+                    <div class="stat-value">{{ totalValoraciones }}</div>
+                    <div class="stat-bar"><div style="width: 45%"></div></div>
+                </div>
+                <div class="stat-card alert">
+                    <div class="stat-title">TOTAL CATEGORIAS</div>
+                    <div class="stat-value">{{ totalCategorias }}</div>
+                    <div class="stat-bar"><div style="width: 80%"></div></div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <div class="panel-title">>> LOGS</div>
+
+                <table class="cyber-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+                        <th>ROLE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.id }}</td>
+                            <td>{{ usuario.nombre }}</td>
+                            <td>{{ usuario.correo }}</td>
+
+                            <td>
+                    <span class="role-badge">
+                        {{ usuario.rol | join(', ') }}
+                    </span>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">NO_DATA_FOUND_IN_SYSTEM</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+{% endblock %}

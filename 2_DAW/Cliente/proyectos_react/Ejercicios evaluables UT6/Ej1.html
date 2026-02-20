@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio DOM</title>
+    <style>
+        .destacado {
+            color: red;
+        }
+
+        .oculto-visual {
+            background-color: black;
+        }
+
+        .nuevo-elemento {
+            font-family: 'Calibri', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ej 1</h1>
+    <section id="nodoPadre">
+        <p>Hola</p>
+        <img src="hola.jpeg" style="width: 200px; height: 200px;">
+        <p id="nodoHijo">Maduro Drip</p>
+        <img src="maduroDrip.jpg" style="width: 200px; height: 200px;">
+        
+        <div id="resultados"></div>
+    </section>
+    <br>
+    <h1>Ej 2</h1>
+    <section>
+        <p id="saludo">Hola de nuevo</p>
+        
+        <ul>
+            <li class="ver">Me ves</li>
+            <li class="ver">Me ves</li>
+        </ul>
+
+        <div id="vacio"></div>
+
+        <br>
+        <button onclick="funcion1()">Cambiar Saludo</button>
+        <button onclick="funcion2()">Cambiar Vision</button>
+        <button onclick="funcion3()">Añadir Nuevo</button>
+    </section>
+    <br>
+    <h1>Ej 3</h1>
+    <section>
+        <input type="text" id="inputCambio">
+        <p id="resultadoInput"></p>
+        <button id="botonCambio">Boton de Cambio</button>
+    </section>
+    <br>
+    <h1>Ej 4</h1>
+    <section class="caja obsoleto">
+        <h2>Sección Obsoleta</h2>
+        <button onclick="funcionAntigua()">Botón Antiguo</button>
+        <p id="texto-malo"></p>
+    </section>
+
+
+    <section class="caja actual">
+        <h2>Sección Actualizada</h2>
+        <button id="btn-bueno">Botón Moderno</button>
+        <p id="texto-bueno"></p>
+    </section>
+
+
+    <script>
+        // Ej 1
+        const raiz = document.documentElement;
+        const padre = document.getElementById("nodoPadre");
+        const hijo = document.getElementById("nodoHijo");
+        const nodoTexto = hijo.firstChild;
+
+        document.getElementById('resultados').innerHTML = `
+            <strong>Análisis del DOM:</strong><br>
+            Raíz: ${raiz.nodeName} (Tipo: ${raiz.nodeType})<br>
+            Padre: ${padre.nodeName} (Tipo: ${padre.nodeType})<br>
+            Hijo: ${hijo.nodeName} (Tipo: ${hijo.nodeType})<br>
+            Texto: "${nodoTexto.nodeValue}" (Tipo: ${nodoTexto.nodeType})
+        `;
+
+        // Ej 2
+        function funcion1() {
+            const ej1 = document.getElementById('saludo');
+            ej2.textContent = 'Adios';
+            ej3.classList.add('destacado'); 
+        }
+
+        function funcion2() {
+            const vista = document.getElementsByClassName('ver');
+
+            for (let i = 0; i < vista.length; i++) {
+                vista[i].textContent = 'Ya no me ves';
+                vista[i].classList.add('oculto-visual');
+            }
+        }
+
+        function funcion3() {
+            const contenedor = document.querySelector('#vacio');
+            const nuevoP = document.createElement('p');
+            nuevoP.textContent = "Esto es nuevo";
+            nuevoP.classList.add('nuevo-elemento');
+            contenedor.appendChild(nuevoP);
+        }
+
+        // Ej 3
+        const boton = document.getElementById('botonCambio')
+        const input = document.getElementById('inputCambio');
+        const resultadoInput = document.getElementById('resultadoInput');
+
+        boton.addEventListener('click', () =>{
+            boton.style.backgroundColor = 'green'
+            boton.innerHTML = 'Hola que pasa'
+        })
+
+        input.addEventListener('input', function() {
+            resultadoInput.textContent = input.value;
+        });
+
+        // Ej 4
+        function funcionAntigua() {
+            document.getElementById('texto-malo').innerText = "Cambiado Mal";
+            alert("Has usado un evento obsoleto");
+        }
+
+        
+        const botonModerno = document.getElementById('btn-bueno');
+        const textoModerno = document.getElementById('texto-bueno');
+
+        botonModerno.addEventListener('click', function() {
+            textoModerno.textContent = "Cambiado Bien";
+            console.log("Has usado un evento actual");
+        });
+    </script>
+</body>
+</html>

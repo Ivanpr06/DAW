@@ -1,0 +1,259 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DATABASE | CARTOON LOST{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            min-height: 100vh;
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .control-bar {
+            padding: 30px 40px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #222;
+        }
+
+        .search-box {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            color: var(--accent);
+            font-family: var(--font-body);
+            outline: none;
+        }
+
+        .search-box::after {
+            content: '[SEARCH_DB]';
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: #555;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        .filter-select {
+            background: #111;
+            color: white;
+            border: 1px solid #333;
+            padding: 15px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .grid-container {
+            padding: 40px;
+            display: grid;
+            /* Grid responsivo automático: Cartas de mínimo 200px de ancho */
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+            /* Relación de aspecto vertical (Poster) */
+            aspect-ratio: 2 / 3;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        /* Imagen de fondo */
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+            transition: filter 0.4s;
+        }
+
+        .card:hover .card-img {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, black 10%, transparent);
+            padding: 80px 15px 15px 15px; /* Mucho padding arriba para el degradado */
+            transform: translateY(10px);
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-title {
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .card-meta {
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 5px 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            z-index: 2;
+            backdrop-filter: blur(2px);
+            /* Sombra de neón */
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+            /* Corte decorativo en la esquina (estilo Cyberpunk) */
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        .rating-badge span {
+            font-size: 0.6rem;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
+
+        .loading-text {
+            text-align: center;
+            color: #444;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no_data {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.7;
+            filter: grayscale(100%);
+            display: block;
+        }
+
+    </style>
+
+    <div class="scanlines"></div>
+
+    <div class="control-bar">
+        <div class="search-box">
+            <input type="text" placeholder="Buscar archivo por nombre..." id="buscador">
+        </div>
+
+        <select class="filter-select" id="filtro-orden" onchange="cambiarOrden(this.value)">
+            <option value="popularidad" {{ app.request.query.get('orden') == 'popularidad' ? 'selected' : '' }}>Más Populares</option>
+            <option value="mejorNota" {{ app.request.query.get('orden') == 'mejorNota' ? 'selected' : '' }}>Mejor Nota</option>
+            <option value="nuevas" {{ app.request.query.get('orden') == 'nuevas' ? 'selected' : '' }}>Más Nuevas</option>
+            <option value="alfabetico" {{ app.request.query.get('orden') == 'alfabetico' ? 'selected' : '' }}>Nombre (A-Z)</option>
+        </select>
+
+        <select class="filter-select" onchange="location.href = this.value">
+            <option value="{{ path('app_serie', {'orden': orden_actual, 'genero': 'todos'}) }}"
+                {{ genero_actual == 'todos' ? 'selected' : '' }}>
+                Genero: Todo
+            </option>
+
+            {% for genero in generos %}
+                <option value="{{ path('app_serie', {'orden': orden_actual, 'genero': genero.id}) }}"
+                    {{ genero_actual == genero.id ? 'selected' : '' }}>
+                    {{ genero.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <div class="grid-container" id="catalog-grid">
+        {% for serie in list_serie %}
+            <a href="{{ app.user ? path('app_serieEspecifica', {'id': serie.id}) : path('app_registro') }}" style="text-decoration: none; color: inherit;">
+                <article class="card">
+                    <div class="rating-badge">
+                        {{ serie.voteAverage|round(2) }}<span>/10</span>
+                    </div>
+                    {% if(serie.posterPath) %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ serie.posterPath }}" alt="{{ serie.name }}" class="card-img">
+                    {% else %}
+                        <img src="{{ asset('/imagenes/no_data.png')}}" alt="no_data" class="no_data">
+                    {% endif%}
+                    <div class="card-overlay">
+                        <div class="card-title">{{ serie.name }}</div>
+                        {% if(serie.posterPath) %}
+                        <div class="card-meta">SYS_DATA: {{ serie.firstAirDate }}</div>
+                        {% else %}
+                            <div class="card-meta">SYS_DATA: No Data</div>
+                        {% endif%}
+                    </div>
+                </article>
+            </a>
+        {% else %}
+            <p>No hay series en la base de datos.</p>
+        {% endfor %}
+
+    </div>
+
+    <script>
+        document.getElementById('buscador').addEventListener('keyup', function(e) {
+            const texto = e.target.value.toLowerCase();
+
+            const cartas = document.querySelectorAll('#catalog-grid > a');
+
+            cartas.forEach(carta => {
+                const titulo = carta.querySelector('.card-title').textContent.toLowerCase();
+
+                if (titulo.includes(texto)) {
+                    carta.style.display = '';
+                } else {
+                    carta.style.display = 'none';
+                }
+            });
+        });
+
+        function cambiarOrden(valor) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('orden', valor);
+            window.location.href = url.toString();
+        }
+    </script>
+
+
+{% endblock %}

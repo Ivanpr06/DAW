@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SYSTEM_RANKINGS | CARTOON LOST{% endblock %}
+
+{% block body %}
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff0055;
+            --bg-dark: #050505;
+            --card-bg: #0b0b0b;
+            --text-dim: #888;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
+            transform: perspective(500px) rotateX(20deg) translateY(-100px) scale(1.5);
+            animation: gridMove 20s linear infinite; pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(20deg) translateY(0) scale(1.5); }
+            100% { transform: perspective(500px) rotateX(20deg) translateY(40px) scale(1.5); }
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .rankings-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .main-title {
+            text-align: center; font-family: 'Archivo Black', sans-serif; font-size: 4rem;
+            text-transform: uppercase; color: #fff; margin-bottom: 10px;
+        }
+
+        .sub-title {
+            text-align: center; color: var(--neon-cyan); letter-spacing: 5px;
+            font-size: 0.9rem; margin-bottom: 80px; text-transform: uppercase;
+        }
+
+        .grid-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .holo-card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            clip-path: polygon(
+                20px 0, 100% 0,
+                100% calc(100% - 20px), calc(100% - 20px) 100%,
+                0 100%, 0 20px
+            );
+        }
+
+        .holo-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .img-zone {
+            width: 100%;
+            height: 220px; /* Altura fija para la imagen */
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            border-bottom: 2px solid var(--neon-cyan); /* Línea divisoria neón */
+        }
+
+        .img-zone img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Recorta la imagen para llenar el espacio sin deformar */
+            object-position: center;
+            filter: grayscale(100%) contrast(1.2);
+            transition: filter 0.5s, transform 0.5s;
+        }
+
+        .img-zone::after {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none; z-index: 2;
+        }
+
+        .holo-card:hover .img-zone img {
+            filter: grayscale(0%) contrast(1.1);
+            transform: scale(1.05);
+        }
+
+        .info-zone {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(10,10,10,1) 100%);
+        }
+
+        .card-title {
+            color: #fff; font-family: 'Archivo Black', sans-serif; font-size: 1.5rem;
+            margin: 0 0 10px 0; text-transform: uppercase; line-height: 1;
+        }
+
+        .card-desc {
+            color: var(--text-dim); font-size: 0.85rem; line-height: 1.4;
+            margin-bottom: 20px;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        .btn-decor {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.7rem; color: var(--neon-cyan); opacity: 0.8; margin-top: auto;
+        }
+        .loading-bar { height: 2px; width: 60px; background: #333; position: relative; }
+        .loading-bar::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--neon-cyan); transition: width 0.4s; }
+        .holo-card:hover .loading-bar::after { width: 100%; }
+    </style>
+
+    <div class="scanlines"></div>
+
+    <div class="rankings-container">
+
+        <div class="main-title">ARCHIVE_RANKINGS</div>
+        <div class="sub-title">/// SELECT DATA STREAM TO INITIALIZE ///</div>
+
+        <div class="grid-display">
+            {% for categoria in categoria_list %}
+                <a href="{{ path('app_rankingEspecifico', {'id': categoria.id}) }}" class="holo-card">
+
+                    <div class="img-zone">
+                        <img src="{{ categoria.imagen ? categoria.imagen : 'https://via.placeholder.com/500x300/000/333?text=NO_SIGNAL' }}"
+                             alt="{{ categoria.nombre }}">
+                    </div>
+
+                    <div class="info-zone">
+                        <div>
+                            <h2 class="card-title">{{ categoria.nombre }}</h2>
+                            <p class="card-desc">{{ categoria.descripcion }}</p>
+                        </div>
+
+                        <div class="btn-decor">
+                            <span>ACCESS_GRANTED</span>
+                            <div class="loading-bar"></div>
+                        </div>
+                    </div>
+
+                </a>
+            {% else %}
+                <div style="color:#666; text-align:center; grid-column:1/-1;">NO DATA FOUND</div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
