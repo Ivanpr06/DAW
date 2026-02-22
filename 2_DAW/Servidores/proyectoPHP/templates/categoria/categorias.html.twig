@@ -13,7 +13,6 @@
 {% block body %}
     <style>
         :root {
-            /* CAMBIO: Color fijo siempre Cian, sin condicionales */
             --accent: #00ffff;
             --bg-panel: #0a0a0a;
             --border-color: #333;
@@ -103,7 +102,6 @@
             box-sizing: border-box;
         }
 
-        /* CAMBIO: Eliminado el bloque extra que ponía sombra naranja */
         .cyber-input:focus {
             border-color: var(--accent);
             border-left-color: var(--accent);
@@ -122,6 +120,8 @@
             font-size: 1.2rem;
             border-bottom: 1px dashed #333;
             padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .series-grid {
@@ -147,7 +147,6 @@
 
         .serie-card:hover { border-color: #666; transform: translateY(-2px); }
 
-        /* CAMBIO: Estilo seleccionado usa el color cyan base */
         .serie-card.selected {
             border-color: var(--accent);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
@@ -224,7 +223,6 @@
             transition: transform 0.2s, border-color 0.2s;
         }
 
-        /* CAMBIO: Active editing ya no usa naranja, usa var(--accent) que es cian */
         .cyber-card.active-editing {
             border-color: var(--accent);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
@@ -318,6 +316,11 @@
             background: #ff4444;
             color: black;
         }
+        
+        .warning-text {
+            color: #ff4444;
+            font-size: 0.8rem;
+        }
     </style>
 
     <div class="admin-container">
@@ -399,7 +402,10 @@
                 </div>
 
                 <div class="selection-section-title">
-                    {% if categoria_editar is defined and categoria_editar %}>> UPDATE_LINKED_SERIES{% else %}>> LINK_SERIES_TO_CATEGORY{% endif %}
+                    <span>{% if categoria_editar is defined and categoria_editar %}>> UPDATE_LINKED_SERIES{% else %}>> LINK_SERIES_TO_CATEGORY{% endif %}</span>
+                    {% if en_uso is defined and en_uso %}
+                        <span class="warning-text">[! LOCKED: IN USE BY RANKING !]</span>
+                    {% endif %}
                 </div>
 
                 {% set ids_iniciales = '' %}
@@ -460,6 +466,12 @@
         {% endif %}
 
         function toggleSerie(elemento, id) {
+            // SI ESTÁ EN USO, BLOQUEAMOS EL CLIC
+            {% if en_uso is defined and en_uso %}
+                alert("ACCESS DENIED: Esta categoría está en uso en un ranking. No se pueden modificar las series vinculadas.");
+                return;
+            {% endif %}
+
             elemento.classList.toggle('selected');
 
             if (seleccionados.includes(id)) {

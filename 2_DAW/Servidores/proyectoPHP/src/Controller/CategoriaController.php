@@ -74,6 +74,7 @@ final class CategoriaController extends AbstractController
         return $this->redirectToRoute('app_categoria');
     }
 
+
     #[Route('admin/categoria/editar/{id}', name: 'app_categoriaEditar')]
     public function editar(int $id, Request $request, CategoriaRepository $categoriaRepository, SerieRepository $serieRepository, EntityManagerInterface $entityManager): Response
     {
@@ -83,43 +84,45 @@ final class CategoriaController extends AbstractController
             throw $this->createNotFoundException('Categoría no encontrada');
         }
 
-        // Procesar Formulario
         if ($request->isMethod('POST')) {
-            // 1. Datos básicos
             $categoria->setNombre($request->request->get('nombre'));
             $categoria->setDescripcion($request->request->get('descripcion'));
             $categoria->setImagen($request->request->get('imagen'));
 
-            // 2. Gestión de Series (Lógica Simplificada)
-            // Paso A: Limpiamos las relaciones actuales
-            foreach ($categoria->getSerie() as $serieActual) {
+            $seriesActuales = $categoria->getSerie()->toArray();
+            foreach ($seriesActuales as $serieActual) {
                 $categoria->removeSerie($serieActual);
+                $serieActual->removeCategoria($categoria);
+                
+                $entityManager->persist($serieActual); 
             }
+            
+            $entityManager->flush();
 
-            // Paso B: Añadimos las nuevas seleccionadas
             $stringIds = $request->request->get('series_ids');
+            $idsElegidos = !empty($stringIds) ? array_map('intval', array_filter(explode(',', $stringIds))) : [];
 
-            if (!empty($stringIds)) {
-                $idsElegidos = explode(',', $stringIds);
-
-                // Buscamos solo las series que necesitamos (Optimizado)
-                $seriesNuevas = $serieRepository->findBy(['id' => $idsElegidos]);
-
-                foreach ($seriesNuevas as $serie) {
+            foreach ($idsElegidos as $idSerie) {
+                $serie = $serieRepository->find($idSerie);
+                if ($serie) {
                     $categoria->addSerie($serie);
+                    $serie->addCategoria($categoria);
+                    
+                    $entityManager->persist($serie);
                 }
             }
 
+            $entityManager->persist($categoria);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_categoria');
         }
 
-        // Renderizar Vista
         return $this->render('categoria/categorias.html.twig', [
             'series' => $serieRepository->findAll(),
             'categorias' => $categoriaRepository->findAll(),
             'categoria_editar' => $categoria,
+            'en_uso' => false 
         ]);
     }
 }

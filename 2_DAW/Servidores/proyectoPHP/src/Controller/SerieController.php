@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Genero;
 use App\Entity\Serie;
 use App\Entity\Valoracion;
 use App\Repository\GeneroRepository;
